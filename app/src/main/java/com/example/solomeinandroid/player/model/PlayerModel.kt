@@ -2,6 +2,7 @@ package com.example.solomeinandroid.player.model
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class Team (
     val name: String,
     val imageUrl: String

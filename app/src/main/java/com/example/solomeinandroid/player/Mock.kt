@@ -3,7 +3,7 @@ package com.example.solomeinandroid.player
 import com.example.solomeinandroid.player.model.PlayerModel
 import com.example.solomeinandroid.player.model.Team
 
-fun getMockPlayer() : List<PlayerModel> = listOf(
+fun getMockPlayers() : List<PlayerModel> = listOf(
     PlayerModel(
         name = "Ethan Cole Arnold",
         nationality = "USA" ,

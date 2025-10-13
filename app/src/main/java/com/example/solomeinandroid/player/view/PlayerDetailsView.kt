@@ -3,6 +3,7 @@ package com.example.solomeinandroid.player.view
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -72,62 +73,39 @@ fun CharacterDetailsContent(state: PlayerDetailsModel, modifier: Modifier = Modi
 
     Column (modifier = modifier
         .verticalScroll(scrollState)){
-
-        ConstraintLayout(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(horizontal = 12.dp),
-        ) {
-            val (image, textColumn, info) = createRefs()
-
+        Row{
             GlideImage(
                 model = state.player.imageUrl,
                 contentDescription = null,
                 modifier = Modifier
+                    .padding(8.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .constrainAs(image) {
-                        start.linkTo(parent.start)
-                        top.linkTo(parent.top)
-                    },
             )
             Column(
-                modifier = Modifier.constrainAs(textColumn) {
-                    start.linkTo(image.end, margin = 16.dp)
-                    top.linkTo(image.top)
-                    bottom.linkTo(image.bottom)
-                    end.linkTo(parent.end)
-                    width = Dimension.fillToConstraints
-                },
+                modifier = Modifier.padding(10.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = state.player.name,
                     style = MaterialTheme.typography.titleLarge
                 )
-                Text(
-                    text = String.format("Nationality: %s", state.player.nationality),
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = String.format("Team: %s", state.player.team.name),
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = String.format("Age: %s", state.player.age),
-                    style = MaterialTheme.typography.labelMedium
-                )
-                Text(
-                    text = String.format("Winnings: %s", state.player.totalWinningsDollars),
-                    style = MaterialTheme.typography.labelMedium
-                )
-            }
-            Text(
-                text = state.player.info,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.constrainAs(info) {
-                    top.linkTo(image.bottom, 8.dp)
+                listOf(
+                    "Nationality: ${state.player.nationality}",
+                    "Team: ${state.player.team.name}",
+                    "Age: ${state.player.age}",
+                    "Winnings: ${state.player.totalWinningsDollars}"
+                ).forEach { text ->
+                    Text(
+                        text = text,
+                        style = MaterialTheme.typography.labelMedium
+                    )
                 }
-            )
+            }
         }
+        Text(
+            modifier = Modifier.padding(10.dp),
+            text = state.player.info,
+            style = MaterialTheme.typography.bodyMedium,
+        )
     }
 }
