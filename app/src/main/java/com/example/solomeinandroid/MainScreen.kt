@@ -2,14 +2,12 @@ package com.example.solomeinandroid
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,9 +17,9 @@ import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import com.example.solomeinandroid.navigation.Route
 import com.example.solomeinandroid.navigation.TopLevelBackStack
-import com.example.solomeinandroid.player.model.PlayerModel
-import com.example.solomeinandroid.player.view.PlayerDetailsView
-import com.example.solomeinandroid.player.view.PlayersListView
+import com.example.solomeinandroid.player.presentation.model.PlayerModel
+import com.example.solomeinandroid.player.presentation.view.PlayerDetailsView
+import com.example.solomeinandroid.player.presentation.view.PlayersListView
 import com.example.solomeinandroid.tournament.view.TournamentListView
 import org.koin.java.KoinJavaComponent.inject
 
@@ -66,7 +64,7 @@ fun MainScreen() {
             ),
             entryProvider = entryProvider {
                 entry<Players> {
-                    PlayersListView(topLevelBackStack)
+                    PlayersListView()
                 }
                 entry<PlayerDetails> {
                     PlayerDetailsView(it.player)

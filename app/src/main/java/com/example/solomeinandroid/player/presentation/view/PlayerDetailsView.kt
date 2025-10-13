@@ -1,4 +1,4 @@
-package com.example.solomeinandroid.player.view
+package com.example.solomeinandroid.player.presentation.view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,14 +22,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.solomeinandroid.player.model.PlayerDetailsModel
-import com.example.solomeinandroid.player.model.PlayerModel
-import com.example.solomeinandroid.player.viewModel.PlayerDetailsViewModel
+import com.example.solomeinandroid.player.presentation.model.PlayerDetailsModel
+import com.example.solomeinandroid.player.presentation.model.PlayerModel
+import com.example.solomeinandroid.player.presentation.viewModel.PlayerDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 

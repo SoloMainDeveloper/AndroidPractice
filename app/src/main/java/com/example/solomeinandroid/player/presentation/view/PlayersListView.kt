@@ -1,4 +1,4 @@
-package com.example.solomeinandroid.player.view
+package com.example.solomeinandroid.player.presentation.view
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -23,29 +22,54 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.solomeinandroid.Players
-import com.example.solomeinandroid.navigation.Route
-import com.example.solomeinandroid.navigation.TopLevelBackStack
-import com.example.solomeinandroid.player.model.PlayerModel
-import com.example.solomeinandroid.player.viewModel.PlayersListViewModel
+import com.example.solomeinandroid.player.presentation.model.PlayerListViewState
+import com.example.solomeinandroid.player.presentation.model.PlayerModel
+import com.example.solomeinandroid.player.presentation.viewModel.PlayersListViewModel
+import com.example.solomeinandroid.uikit.FullScreenError
+import com.example.solomeinandroid.uikit.FullScreenLoading
 import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
-fun PlayersListView(topLevelBackStack: TopLevelBackStack<Route>) {
-    val viewModel = koinViewModel<PlayersListViewModel> {
-        parametersOf(topLevelBackStack)
-    }
-    val players by viewModel.players.collectAsStateWithLifecycle()
+fun PlayersListView() {
+    val viewModel = koinViewModel<PlayersListViewModel>()
+    val state by viewModel.viewState.collectAsStateWithLifecycle()
 
-    LazyColumn {
-        items(
-            items = players,
-            key = { it.name }
-        ) { player ->
-            PlayersListItem(
-                player = player,
-                onPlayerClick = { viewModel.onPlayerClick(player) }
+    PlayerListScreenContent(
+        state.state,
+        viewModel::onPlayerClick,
+        viewModel::onRetryClick
+    )
+
+
+}
+
+@Composable
+private fun PlayerListScreenContent(
+    state: PlayerListViewState.State,
+    onPlayerClick: (PlayerModel) -> Unit = {},
+    onRetryClick: () -> Unit = {}
+) {
+    when (state) {
+        PlayerListViewState.State.Loading -> {
+            FullScreenLoading()
+        }
+
+        is PlayerListViewState.State.Success -> {
+            LazyColumn {
+                state.data.forEach { player ->
+                    item {
+                        PlayersListItem(player) {
+                            onPlayerClick(it)
+                        }
+                    }
+                }
+            }
+        }
+
+        is PlayerListViewState.State.Error -> {
+            FullScreenError(
+                retry = { onRetryClick() },
+                text = state.error
             )
         }
     }
@@ -92,5 +116,5 @@ fun PlayersListItem(player: PlayerModel, onPlayerClick: (PlayerModel) -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PlayersListPreview() {
-    PlayersListView(TopLevelBackStack(Players))
+    PlayersListView()
 }
