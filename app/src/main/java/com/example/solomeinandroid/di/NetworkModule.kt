@@ -1,6 +1,7 @@
 package com.example.solomeinandroid.di
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.example.solomeinandroid.player.data.PlayersApi
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -30,4 +31,6 @@ val networkModule = module {
             .client(get())
             .build()
     }
+
+    single<PlayersApi> { get<Retrofit>().create(PlayersApi::class.java) }
 }

@@ -11,14 +11,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
+import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
 import com.example.solomeinandroid.navigation.Route
 import com.example.solomeinandroid.navigation.TopLevelBackStack
 import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import com.example.solomeinandroid.player.presentation.view.PlayerDetailsView
+import com.example.solomeinandroid.player.presentation.view.PlayerSettingsDialog
 import com.example.solomeinandroid.player.presentation.view.PlayersListView
 import com.example.solomeinandroid.tournament.view.TournamentListView
 import org.koin.java.KoinJavaComponent.inject
@@ -36,6 +39,8 @@ data object Tournaments : TopLevelRoute {
 data object Players : TopLevelRoute {
     override val icon = Icons.Default.Person
 }
+
+data object PlayerSettings: Route
 
 @Composable
 fun MainScreen() {
@@ -71,6 +76,11 @@ fun MainScreen() {
                 }
                 entry<Tournaments> {
                     TournamentListView()
+                }
+                entry< PlayerSettings>(
+                    metadata = DialogSceneStrategy.dialog(DialogProperties())
+                ) {
+                    PlayerSettingsDialog()
                 }
             }
         )
