@@ -11,8 +11,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,11 +25,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.solomeinandroid.player.presentation.model.PlayerDetailsModel
+import com.example.solomeinandroid.player.presentation.model.PlayerDetailsViewState
 import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import com.example.solomeinandroid.player.presentation.viewModel.PlayerDetailsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -51,9 +56,32 @@ fun PlayerDetailsView(player: PlayerModel) {
                             viewModel.onBack()
                         }
                     )
+                },
+                actions = {
+                    IconButton(
+                        onClick = { viewModel.onToggleFavorite() }
+                    ) {
+                        Icon(
+                            imageVector = if (state.isFavorite) {
+                                Icons.Filled.Star
+                            } else {
+                                Icons.Outlined.Star
+                            },
+                            contentDescription = if (state.isFavorite) {
+                                "Remove from favorites"
+                            } else {
+                                "Add to favorites"
+                            },
+                            tint = if (state.isFavorite) {
+                                Color.Yellow
+                            } else {
+                                LocalContentColor.current
+                            }
+                        )
+                    }
                 }
             )
-        }
+        },
     ) { padding ->
         CharacterDetailsContent(
             state = state,
@@ -66,7 +94,7 @@ fun PlayerDetailsView(player: PlayerModel) {
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CharacterDetailsContent(state: PlayerDetailsModel, modifier: Modifier = Modifier) {
+fun CharacterDetailsContent(state: PlayerDetailsViewState, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
 
     Column (modifier = modifier
