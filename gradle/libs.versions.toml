@@ -17,6 +17,10 @@ lifecycleViewmodelNavigation3 = "2.10.0-alpha04"
 retrofit = "3.0.0"
 chucker = "4.2.0"
 ksp = "2.2.0-2.0.2"
+modo-compose = "0.10.0"
+protobufJavalite = "3.21.11"
+protobufKotlinLite = "3.21.11"
+material3 = "1.4.0"
 
 materialIconsCore = "1.7.3"
 nav3Core = "1.0.0-alpha10"
@@ -63,6 +67,11 @@ androidx-datastore-preferences = {module = "androidx.datastore:datastore-prefere
 androidx-room-compiler = {module = "androidx.room:room-compiler", version.ref="room"}
 androidx-room-runtime = {module = "androidx.room:room-runtime", version.ref = "room"}
 room-ktx = {module = "androidx.room:room-ktx", version.ref = "room"}
+
+modo-compose = { module = "com.github.terrakok:modo-compose", version.ref = "modo-compose" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
+protobuf-kotlin-lite = { module = "com.google.protobuf:protobuf-kotlin-lite", version.ref = "protobufKotlinLite" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
