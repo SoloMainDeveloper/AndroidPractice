@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.solomeinandroid.di.dbModule
 import com.example.solomeinandroid.di.mainModule
 import com.example.solomeinandroid.di.networkModule
+import com.example.solomeinandroid.di.profileModule
 import com.example.solomeinandroid.player.di.playerFeatureModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -15,7 +16,7 @@ class App: Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(mainModule, playerFeatureModule, networkModule, dbModule)
+            modules(mainModule, playerFeatureModule, networkModule, dbModule, profileModule)
         }
     }
 }

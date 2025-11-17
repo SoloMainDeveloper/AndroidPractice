@@ -1,8 +1,10 @@
 package com.example.solomeinandroid
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
@@ -23,6 +25,8 @@ import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import com.example.solomeinandroid.player.presentation.view.PlayerDetailsView
 import com.example.solomeinandroid.player.presentation.view.PlayerSettingsDialog
 import com.example.solomeinandroid.player.presentation.view.PlayersListView
+import com.example.solomeinandroid.profile.presentation.view.EditProfileScreen
+import com.example.solomeinandroid.profile.presentation.view.ProfileScreen
 import com.example.solomeinandroid.tournament.view.TournamentListView
 import org.koin.java.KoinJavaComponent.inject
 
@@ -40,6 +44,12 @@ data object Players : TopLevelRoute {
     override val icon = Icons.Default.Person
 }
 
+data object Profile : TopLevelRoute {
+    override val icon = Icons.Default.Face
+}
+
+data object EditProfile : Route
+
 data object PlayerSettings: Route
 
 @Composable
@@ -48,7 +58,7 @@ fun MainScreen() {
 
     Scaffold(bottomBar = {
         NavigationBar {
-            listOf(Players, Tournaments).forEach { route ->
+            listOf(Players, Tournaments, Profile).forEach { route ->
                 NavigationBarItem(
                     icon = { Icon(route.icon, null) },
                     selected = topLevelBackStack.topLevelKey == route,
@@ -81,6 +91,12 @@ fun MainScreen() {
                     metadata = DialogSceneStrategy.dialog(DialogProperties())
                 ) {
                     PlayerSettingsDialog()
+                }
+                entry<Profile> {
+                    ProfileScreen().Content(Modifier.fillMaxWidth())
+                }
+                entry<EditProfile> {
+                    EditProfileScreen().Content(Modifier.fillMaxWidth())
                 }
             }
         )
