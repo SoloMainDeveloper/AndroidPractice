@@ -14,13 +14,14 @@ class ProfileRepository {
 
     suspend fun getProfile(): ProfileEntity? = dataStore.data.firstOrNull()
 
-    suspend fun setProfile(photoUri: String, name: String, nick: String, url: String) =
+    suspend fun setProfile(photoUri: String, name: String, nick: String, url: String, lessonTime : String) =
         dataStore.updateData {
             it.toBuilder().apply {
                 this.photoUri = photoUri
                 this.name = name
                 this.nick = nick
                 this.url = url
+                this.lessonTime = lessonTime
             }.build()
         }
 }

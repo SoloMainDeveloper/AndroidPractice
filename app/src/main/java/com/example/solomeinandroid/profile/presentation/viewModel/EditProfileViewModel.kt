@@ -30,6 +30,7 @@ class EditProfileViewModel(
                 mutableState.url = it.url
                 mutableState.photoUri = it.photoUri.toUri()
                 mutableState.nick = it.nick
+                mutableState.lessonTime = it.lessonTime
             }
         }
         mutableState.isNeedToShowPermission = true
@@ -47,6 +48,10 @@ class EditProfileViewModel(
         mutableState.nick = nick;
     }
 
+    fun onLessonTimeChanged(lessonTime : String) {
+        mutableState.lessonTime = lessonTime
+    }
+
     fun onBackClicked() {
         viewModelScope.launch {
             _navigationEvent.emit("back")
@@ -55,7 +60,8 @@ class EditProfileViewModel(
 
     fun onDoneClicked() {
         viewModelScope.launch {
-            repository.setProfile(mutableState.photoUri.toString(), viewState.name,  viewState.nick,viewState.url)
+            repository.setProfile(mutableState.photoUri.toString(), viewState.name,
+                viewState.nick, viewState.url, viewState.lessonTime)
             _navigationEvent.emit("back")
         }
     }
@@ -81,6 +87,7 @@ class EditProfileViewModel(
         override var name by mutableStateOf("")
         override var url by mutableStateOf("")
         override var nick by mutableStateOf("")
+        override var lessonTime by mutableStateOf("")
         override var isNeedToShowPermission by mutableStateOf(false)
         override var isNeedToShowSelect: Boolean by mutableStateOf(false)
     }

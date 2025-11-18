@@ -33,6 +33,7 @@ class ProfileViewModel(
                 mutableState.photoUri = Uri.parse(it.photoUri)
                 mutableState.nick = it.nick
                 mutableState.url = it.url
+                mutableState.lessonTime = it.lessonTime
             }
         }
     }
@@ -42,5 +43,6 @@ class ProfileViewModel(
         override var photoUri by mutableStateOf(Uri.EMPTY)
         override var url by mutableStateOf("")
         override var nick by mutableStateOf("")
+        override var lessonTime by mutableStateOf("")
     }
 }

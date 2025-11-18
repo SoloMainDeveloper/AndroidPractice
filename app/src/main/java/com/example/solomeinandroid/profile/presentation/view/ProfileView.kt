@@ -6,8 +6,10 @@ import android.content.Intent
 import android.os.Environment
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -115,6 +117,16 @@ class ProfileScreen(
                 Button(onClick = { handlerDownloadRequest(state.url, context) }) {
                     Text(text = "Download CV")
                 }
+                Spacer(Modifier.height(8.dp))
+
+                var lessonTimeText : String
+                lessonTimeText = if(state.lessonTime.isEmpty()){
+                    "Lesson time hasn`t been set"
+                } else {
+                    "Lesson time - " + state.lessonTime
+                }
+
+                Text(lessonTimeText, style = MaterialTheme.typography.labelMedium)
             }
         }
     }
