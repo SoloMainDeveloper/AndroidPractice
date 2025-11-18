@@ -7,6 +7,7 @@ interface EditProfileState {
     val name: String
     val url: String
     val nick : String
+    val lessonTime : String
     val isNeedToShowPermission: Boolean
     val isNeedToShowSelect: Boolean
 }

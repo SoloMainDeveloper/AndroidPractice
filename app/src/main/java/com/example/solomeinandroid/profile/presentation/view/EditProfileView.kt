@@ -1,14 +1,21 @@
 package com.example.solomeinandroid.profile.presentation.view
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
+import android.app.TimePickerDialog
 import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -17,16 +24,20 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
@@ -44,12 +55,16 @@ import org.koin.androidx.compose.koinViewModel
 import java.io.File
 import org.koin.java.KoinJavaComponent.inject
 import com.example.solomeinandroid.R
+import com.example.solomeinandroid.profile.presentation.receiver.LessonNotificationReceiver
+import java.util.Calendar
+import java.util.regex.Pattern
 
 @Parcelize
 class EditProfileScreen(
     override val screenKey: ScreenKey = generateScreenKey(),
 ) : Screen {
 
+    @SuppressLint("DefaultLocale")
     @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
     @Composable
     override fun Content(modifier: Modifier) {
@@ -57,6 +72,19 @@ class EditProfileScreen(
         val context = LocalContext.current
         val viewModel = koinViewModel<EditProfileViewModel>()
         val state = viewModel.viewState
+
+        var timeError by remember { mutableStateOf(false) }
+        val calendar = Calendar.getInstance()
+        val timePickerDialog = TimePickerDialog(
+            context,
+            { _, hour, minute ->
+                viewModel.onLessonTimeChanged(String.format("%02d:%02d", hour, minute))
+                timeError = false
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        )
 
         LaunchedEffect(Unit) {
             viewModel.navigationEvent.collect { destination ->
@@ -134,7 +162,20 @@ class EditProfileScreen(
                             Modifier
                                 .padding(end = 8.dp)
                                 .clickable {
-                                    viewModel.onDoneClicked()
+                                    val timePattern = Pattern.compile("^([01]\\d|2[0-3]):[0-5]\\d$")
+                                    if (state.lessonTime.isNotEmpty() && !timePattern.matcher(state.lessonTime)
+                                            .matches()
+                                    ) {
+                                        timeError = true
+                                    } else {
+                                        timeError = false
+                                        scheduleNotification(
+                                            context,
+                                            state.name,
+                                            state.lessonTime
+                                        )
+                                        viewModel.onDoneClicked()
+                                    }
                                 }
                         )
                     },
@@ -181,6 +222,29 @@ class EditProfileScreen(
                     value = state.url,
                     onValueChange = { viewModel.onUrlChanged(it) },
                     label = { Text("Link") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                )
+                TextField(
+                    value = state.lessonTime,
+                    onValueChange = { viewModel.onLessonTimeChanged(it) },
+                    label = { Text("Lesson time (HH:mm)") },
+                    trailingIcon = {
+                        IconButton(onClick = { timePickerDialog.show() }) {
+                            Icon(Icons.Default.Notifications, contentDescription = "Choose time")
+                        }
+                    },
+                    singleLine = true,
+                    isError = timeError,
+                    supportingText = {
+                        if (timeError) Text(
+                            "Введите корректное время (HH:mm)",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp)
@@ -259,5 +323,45 @@ class EditProfileScreen(
                 }
             }
         }
+    }
+
+    fun scheduleNotification(context: Context, name: String, time: String) {
+        val parts = time.split(":")
+        val hour = parts.getOrNull(0)?.toIntOrNull() ?: return
+        val minute = parts.getOrNull(1)?.toIntOrNull() ?: return
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            if (before(Calendar.getInstance())) add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        val intent = Intent(context, LessonNotificationReceiver::class.java).apply {
+            putExtra("name", name)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            System.currentTimeMillis().toInt(),
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+            val i = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+            i.data = Uri.parse("package:${context.packageName}")
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(i)
+            return
+        }
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
     }
 }
