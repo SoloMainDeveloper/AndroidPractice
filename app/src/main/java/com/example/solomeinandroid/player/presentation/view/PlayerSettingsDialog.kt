@@ -21,7 +21,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.solomeinandroid.player.presentation.model.PlayerSettingsState
 import com.example.solomeinandroid.player.presentation.viewModel.PlayerSettingsViewModel
-import com.example.solomeinandroid.uikit.Spacing
+import com.example.uikit.uikit.Spacing
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

@@ -1,0 +1,10 @@
+package com.example.profile.presentation.model
+
+import android.net.Uri
+
+class ProfileUiModel (
+    val uri: Uri,
+    val name: String,
+    val url: String,
+    val lessonTime: String?
+)

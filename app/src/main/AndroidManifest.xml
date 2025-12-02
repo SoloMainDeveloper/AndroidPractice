@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".profile.presentation.receiver.LessonNotificationReceiver"
+            android:name="com.example.profile.presentation.receiver.LessonNotificationReceiver"
             android:exported="false" />
         <provider
             android:name="androidx.core.content.FileProvider"

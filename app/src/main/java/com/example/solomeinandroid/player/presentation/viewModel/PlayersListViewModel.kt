@@ -9,7 +9,6 @@ import com.example.solomeinandroid.navigation.TopLevelBackStack
 import com.example.solomeinandroid.player.data.cache.BadgeCache
 import com.example.solomeinandroid.player.domain.interactor.PlayerInteractor
 import com.example.solomeinandroid.player.domain.model.PlayerEntity
-import com.example.solomeinandroid.player.getMockPlayers
 import com.example.solomeinandroid.player.presentation.model.PlayerListFilter
 import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import kotlinx.coroutines.flow.MutableStateFlow
