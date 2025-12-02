@@ -7,4 +7,5 @@ interface ProfileState {
     val photoUri: Uri
     val url: String
     val nick : String
+    val lessonTime : String
 }

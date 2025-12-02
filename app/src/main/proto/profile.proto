@@ -8,4 +8,5 @@ message ProfileEntity {
     string name = 2;
     string url = 3;
     string nick = 4;
+    string lessonTime = 5;
     }
