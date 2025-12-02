@@ -102,4 +102,7 @@ dependencies {
     implementation(libs.modo.compose)
     implementation(libs.protobuf.javalite)
     implementation(libs.protobuf.kotlin.lite)
+
+    implementation(project(":uikit"))
+    implementation(project(":core"))
 }

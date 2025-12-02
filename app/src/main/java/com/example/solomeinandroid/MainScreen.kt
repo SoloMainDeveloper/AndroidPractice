@@ -12,29 +12,27 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
-import com.example.solomeinandroid.navigation.Route
-import com.example.solomeinandroid.navigation.TopLevelBackStack
+import com.example.core.navigation.Route
+import com.example.core.navigation.TopLevelBackStack
+import com.example.core.navigation.TopLevelRoute
 import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import com.example.solomeinandroid.player.presentation.view.PlayerDetailsView
 import com.example.solomeinandroid.player.presentation.view.PlayerSettingsDialog
 import com.example.solomeinandroid.player.presentation.view.PlayersListView
-import com.example.solomeinandroid.profile.presentation.view.EditProfileScreen
-import com.example.solomeinandroid.profile.presentation.view.ProfileScreen
+import com.example.core.navigation.EntryProviderInstaller
+import com.example.profile.ProfileModule
+import com.example.profile.PROFILE_QUALIFIER
 import com.example.solomeinandroid.tournament.view.TournamentListView
+import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.inject
 
 data class PlayerDetails(val player : PlayerModel) : Route
-
-interface TopLevelRoute : Route {
-    val icon: ImageVector
-}
 
 data object Tournaments : TopLevelRoute {
     override val icon = Icons.Default.DateRange
@@ -55,6 +53,10 @@ data object PlayerSettings: Route
 @Composable
 fun MainScreen() {
     val topLevelBackStack by inject<TopLevelBackStack<Route>>(TopLevelBackStack::class.java)
+    val profileEntryProvider by inject<EntryProviderInstaller>(
+        clazz = EntryProviderInstaller::class.java,
+        qualifier = named(PROFILE_QUALIFIER)
+    )
 
     Scaffold(bottomBar = {
         NavigationBar {
@@ -92,12 +94,7 @@ fun MainScreen() {
                 ) {
                     PlayerSettingsDialog()
                 }
-                entry<Profile> {
-                    ProfileScreen().Content(Modifier.fillMaxWidth())
-                }
-                entry<EditProfile> {
-                    EditProfileScreen().Content(Modifier.fillMaxWidth())
-                }
+                profileEntryProvider.let { builder -> this.builder() }
             }
         )
     }

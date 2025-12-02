@@ -44,9 +44,9 @@ import com.example.solomeinandroid.player.presentation.model.PlayerListFilter
 import com.example.solomeinandroid.player.presentation.model.PlayerListViewState
 import com.example.solomeinandroid.player.presentation.model.PlayerModel
 import com.example.solomeinandroid.player.presentation.viewModel.PlayersListViewModel
-import com.example.solomeinandroid.uikit.FullScreenError
-import com.example.solomeinandroid.uikit.FullScreenLoading
-import com.example.solomeinandroid.uikit.Spacing
+import com.example.uikit.uikit.FullScreenError
+import com.example.uikit.uikit.FullScreenLoading
+import com.example.uikit.uikit.Spacing
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

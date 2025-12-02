@@ -21,3 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "SolomeinAndroid"
 include(":app")
+include(":uikit")
+include(":core")
+include(":profile")
