@@ -40,7 +40,7 @@ import kotlinx.parcelize.Parcelize
 import java.io.File
 import androidx.core.content.FileProvider
 import com.example.profile.EditProfile
-import com.example.solomeinandroid.R
+import com.example.profile.R
 import com.example.core.navigation.Route
 import com.example.core.navigation.TopLevelBackStack
 import com.example.profile.presentation.BroadcastReceiver
@@ -193,9 +193,8 @@ class ProfileScreen(
                     uri,
                     "application/pdf"
                 )
-                Intent.setFlags =
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
             }
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             context.startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()

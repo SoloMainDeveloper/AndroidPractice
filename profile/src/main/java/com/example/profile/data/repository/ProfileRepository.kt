@@ -1,7 +1,7 @@
 package com.example.profile.data.repository
 
 import androidx.datastore.core.DataStore
-import com.example.solomeinandroid.profile.data.entity.ProfileEntity
+import com.example.profile.data.entity.ProfileEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import org.koin.core.qualifier.named

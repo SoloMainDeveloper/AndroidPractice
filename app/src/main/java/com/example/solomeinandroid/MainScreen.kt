@@ -1,6 +1,5 @@
 package com.example.solomeinandroid
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
@@ -26,8 +25,8 @@ import com.example.solomeinandroid.player.presentation.view.PlayerDetailsView
 import com.example.solomeinandroid.player.presentation.view.PlayerSettingsDialog
 import com.example.solomeinandroid.player.presentation.view.PlayersListView
 import com.example.core.navigation.EntryProviderInstaller
-import com.example.profile.ProfileModule
 import com.example.profile.PROFILE_QUALIFIER
+import com.example.profile.Profile
 import com.example.solomeinandroid.tournament.view.TournamentListView
 import org.koin.core.qualifier.named
 import org.koin.java.KoinJavaComponent.inject
@@ -41,12 +40,6 @@ data object Tournaments : TopLevelRoute {
 data object Players : TopLevelRoute {
     override val icon = Icons.Default.Person
 }
-
-data object Profile : TopLevelRoute {
-    override val icon = Icons.Default.Face
-}
-
-data object EditProfile : Route
 
 data object PlayerSettings: Route
 

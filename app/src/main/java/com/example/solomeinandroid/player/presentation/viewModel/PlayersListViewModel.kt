@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.solomeinandroid.PlayerDetails
 import com.example.solomeinandroid.PlayerSettings
-import com.example.solomeinandroid.navigation.Route
-import com.example.solomeinandroid.navigation.TopLevelBackStack
+import com.example.core.navigation.Route
+import com.example.core.navigation.TopLevelBackStack
 import com.example.solomeinandroid.player.data.cache.BadgeCache
 import com.example.solomeinandroid.player.domain.interactor.PlayerInteractor
 import com.example.solomeinandroid.player.domain.model.PlayerEntity

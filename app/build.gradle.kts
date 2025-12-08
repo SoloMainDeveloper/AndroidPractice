@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.solomeinandroid"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -105,4 +105,5 @@ dependencies {
 
     implementation(project(":uikit"))
     implementation(project(":core"))
+    implementation(project(":profile"))
 }

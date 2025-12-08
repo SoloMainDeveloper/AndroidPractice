@@ -8,11 +8,11 @@ import com.example.solomeinandroid.player.domain.interactor.PlayerInteractor
 import com.example.solomeinandroid.player.presentation.viewModel.PlayerDetailsViewModel
 import com.example.solomeinandroid.player.presentation.viewModel.PlayerSettingsViewModel
 import com.example.solomeinandroid.player.presentation.viewModel.PlayersListViewModel
-import com.example.solomeinandroid.profile.data.entity.ProfileEntity
-import com.example.solomeinandroid.profile.data.provider.DataSourceProvider
-import com.example.solomeinandroid.profile.data.repository.ProfileRepository
-import com.example.solomeinandroid.profile.presentation.viewModel.EditProfileViewModel
-import com.example.solomeinandroid.profile.presentation.viewModel.ProfileViewModel
+import com.example.profile.data.entity.ProfileEntity
+import com.example.profile.data.provider.DataSourceProvider
+import com.example.profile.data.repository.ProfileRepository
+import com.example.profile.presentation.viewModel.EditProfileViewModel
+import com.example.profile.presentation.viewModel.ProfileViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

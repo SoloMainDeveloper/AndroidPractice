@@ -5,7 +5,7 @@ import androidx.datastore.core.Serializer
 import com.google.protobuf.InvalidProtocolBufferException
 import java.io.InputStream
 import java.io.OutputStream
-import com.example.solomeinandroid.profile.data.entity.ProfileEntity
+import com.example.profile.data.entity.ProfileEntity
 
 object ProfileSerializer : Serializer<ProfileEntity> {
     override val defaultValue: ProfileEntity
