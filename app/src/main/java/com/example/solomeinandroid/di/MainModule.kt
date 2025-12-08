@@ -6,8 +6,8 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.solomeinandroid.Players
-import com.example.solomeinandroid.navigation.Route
-import com.example.solomeinandroid.navigation.TopLevelBackStack
+import com.example.core.navigation.Route
+import com.example.core.navigation.TopLevelBackStack
 import com.example.solomeinandroid.player.data.cache.BadgeCache
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module

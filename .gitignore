@@ -4,8 +4,11 @@
 .idea/
 .DS_Store
 app/build
+profile/build
 /captures
 .externalNativeBuild
 .cxx
 local.properties
-
+core/build/
+uikit/build/
+feature/profile/build/
